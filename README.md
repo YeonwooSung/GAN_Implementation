@@ -13,4 +13,4 @@ Basically, this repository is a collection of my python implementation of Genera
 
 The GAN stands for Generative Adversarial Network.
 
-[paper](https://arxiv.org/abs/1406.2661)  [code](./src/gan.py)
+[[paper]](https://arxiv.org/abs/1406.2661)  [[code]](./src/gan.py)
