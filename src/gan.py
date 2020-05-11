@@ -54,6 +54,7 @@ class Generator(nn.Module):
 
         # Create a sequential container.
         self.model = nn.Sequential(
+            # * operator unpacks the sequence/collection into positional arguments
             *block(opt.latent_dim, 128, normalize=False),
             *block(128, 256),
             *block(256, 512),
