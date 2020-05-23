@@ -9,8 +9,8 @@ Basically, this repository is a collection of my python implementation of Genera
   * [Installation](#Installation)
   * [Implementations](#Implementations)
     + [GAN](#gan)
-    + [Wasserstein GAN](#wgan)
-    + [Wasserstein GAN GP](#wgan_gp)
+    + [Wasserstein GAN](#wasserstein-gan)
+    + [Wasserstein GAN GP](#wasserstein-gan-gp)
 
 ## Installation
 
