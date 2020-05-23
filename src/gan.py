@@ -35,8 +35,8 @@ print(opt)
 # make the tuple for the image shape
 img_shape = (opt.channels, opt.img_size, opt.img_size)
 
-# variable to check if cuda is available
-cuda = True if torch.cuda.is_available() else False
+# variable to check if CUDA is available
+CUDA = True if torch.CUDA.is_available() else False
 
 
 class Generator(nn.Module):
@@ -96,10 +96,10 @@ adversarial_loss = torch.nn.BCELoss()
 generator = Generator()
 discriminator = Discriminator()
 
-if cuda:
-    generator.cuda()
-    discriminator.cuda()
-    adversarial_loss.cuda()
+if CUDA:
+    generator.CUDA()
+    discriminator.CUDA()
+    adversarial_loss.CUDA()
 
 # Configure data loader
 os.makedirs("../../data/mnist", exist_ok=True)
@@ -120,7 +120,7 @@ dataloader = torch.utils.data.DataLoader(
 optimizer_G = torch.optim.Adam(generator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
 optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
 
-Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+Tensor = torch.CUDA.FloatTensor if CUDA else torch.FloatTensor
 
 
 
