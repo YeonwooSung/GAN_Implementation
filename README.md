@@ -6,10 +6,10 @@ Basically, this repository is a collection of my python implementation of Genera
 
 ## Table of Contents
 
-*[Installation](#Installation)
-*[Implementations](#Implementations)
-    +[GAN](#gan)
-    +[WGAN](#wgan)
+  * [Installation](#Installation)
+  * [Implementations](#Implementations)
+    + [GAN](#gan)
+    + [WGAN](#wgan)
 
 ## Installation
 
