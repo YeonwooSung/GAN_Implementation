@@ -9,8 +9,8 @@ Basically, this repository is a collection of my python implementation of Genera
   * [Installation](#Installation)
   * [Implementations](#Implementations)
     + [GAN](#gan)
-    + [WGAN](#wgan)
-    + [WGAN-GP](#wgan_gp)
+    + [Wasserstein GAN](#wgan)
+    + [Wasserstein GAN GP](#wgan_gp)
 
 ## Installation
 
@@ -41,7 +41,7 @@ $ cd src/
 $ python3 gan.py
 ```
 
-### WGAN
+### Wasserstein GAN
 
 _Wasserstein GAN_
 
@@ -62,7 +62,7 @@ $ cd src
 $ python3 wgan.py
 ```
 
-### WGAN-GP
+### Wasserstein GAN GP
 
 _Improved training of Wasserstein GANs_
 
