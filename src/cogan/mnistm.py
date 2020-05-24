@@ -1,6 +1,8 @@
+  
 """
 Dataset setting and data loader for MNIST-M.
-@original: <https://github.com/eriklindernoren/PyTorch-GAN/blob/master/implementations/cogan/mnistm.py>
+
+@original: <https://github.com/pytorch/vision/blob/master/torchvision/datasets/mnist.py>
 """
 
 from __future__ import print_function
@@ -14,7 +16,9 @@ from PIL import Image
 
 
 class MNISTM(data.Dataset):
-    """`MNIST-M Dataset."""
+    """
+    MNIST-M Dataset
+    """
 
     url = "https://github.com/VanushVaswani/keras_mnistm/releases/download/1.0/keras_mnistm.pkl.gz"
 

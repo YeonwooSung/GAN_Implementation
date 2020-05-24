@@ -1,7 +1,3 @@
-"""
-@original: <https://github.com/eriklindernoren/PyTorch-GAN/blob/master/implementations/cogan/mnistm.py>
-"""
-
 import argparse
 import os
 import numpy as np
@@ -23,26 +19,19 @@ import torch
 import mnistm
 
 
-
-os.makedirs("images", exist_ok=True)
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--n_epochs", type=int, default=200, help="number of epochs of training")
-parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
-parser.add_argument("--lr", type=float, default=0.0002, help="adam: learning rate")
-parser.add_argument("--b1", type=float, default=0.5, help="adam: decay of first order momentum of gradient")
-parser.add_argument("--b2", type=float, default=0.999, help="adam: decay of first order momentum of gradient")
-parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
-parser.add_argument("--latent_dim", type=int, default=100, help="dimensionality of the latent space")
-parser.add_argument("--img_size", type=int, default=32, help="size of each image dimension")
-parser.add_argument("--channels", type=int, default=3, help="number of image channels")
-parser.add_argument("--sample_interval", type=int, default=400, help="interval betwen image samples")
-opt = parser.parse_args()
-print(opt)
-
-img_shape = (opt.channels, opt.img_size, opt.img_size)
-
-cuda = True if torch.cuda.is_available() else False
+def arg_parse():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--n_epochs", type=int, default=200, help="number of epochs of training")
+    parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
+    parser.add_argument("--lr", type=float, default=0.0002, help="adam: learning rate")
+    parser.add_argument("--b1", type=float, default=0.5, help="adam: decay of first order momentum of gradient")
+    parser.add_argument("--b2", type=float, default=0.999, help="adam: decay of first order momentum of gradient")
+    parser.add_argument("--n_cpu", type=int, default=8, help="number of cpu threads to use during batch generation")
+    parser.add_argument("--latent_dim", type=int, default=100, help="dimensionality of the latent space")
+    parser.add_argument("--img_size", type=int, default=32, help="size of each image dimension")
+    parser.add_argument("--channels", type=int, default=3, help="number of image channels")
+    parser.add_argument("--sample_interval", type=int, default=400, help="interval betwen image samples")
+    return parser.parse_args()
 
 
 def weights_init_normal(m):
@@ -54,12 +43,12 @@ def weights_init_normal(m):
         torch.nn.init.constant_(m.bias.data, 0.0)
 
 
-class CoupledGenerators(nn.Module):
-    def __init__(self):
-        super(CoupledGenerators, self).__init__()
+class Generators(nn.Module):
+    def __init__(self, args):
+        super(Generators, self).__init__()
 
-        self.init_size = opt.img_size // 4
-        self.fc = nn.Sequential(nn.Linear(opt.latent_dim, 128 * self.init_size ** 2))
+        self.init_size = args.img_size // 4
+        self.fc = nn.Sequential(nn.Linear(args.latent_dim, 128 * self.init_size ** 2))
 
         self.shared_conv = nn.Sequential(
             nn.BatchNorm2d(128),
@@ -73,14 +62,14 @@ class CoupledGenerators(nn.Module):
             nn.Conv2d(128, 64, 3, stride=1, padding=1),
             nn.BatchNorm2d(64, 0.8),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Conv2d(64, opt.channels, 3, stride=1, padding=1),
+            nn.Conv2d(64, args.channels, 3, stride=1, padding=1),
             nn.Tanh(),
         )
         self.G2 = nn.Sequential(
             nn.Conv2d(128, 64, 3, stride=1, padding=1),
             nn.BatchNorm2d(64, 0.8),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Conv2d(64, opt.channels, 3, stride=1, padding=1),
+            nn.Conv2d(64, args.channels, 3, stride=1, padding=1),
             nn.Tanh(),
         )
 
@@ -93,9 +82,9 @@ class CoupledGenerators(nn.Module):
         return img1, img2
 
 
-class CoupledDiscriminators(nn.Module):
-    def __init__(self):
-        super(CoupledDiscriminators, self).__init__()
+class Discriminators(nn.Module):
+    def __init__(self, args):
+        super(Discriminators, self).__init__()
 
         def discriminator_block(in_filters, out_filters, bn=True):
             block = [nn.Conv2d(in_filters, out_filters, 3, 2, 1)]
@@ -105,13 +94,13 @@ class CoupledDiscriminators(nn.Module):
             return block
 
         self.shared_conv = nn.Sequential(
-            *discriminator_block(opt.channels, 16, bn=False),
+            *discriminator_block(args.channels, 16, bn=False),
             *discriminator_block(16, 32),
             *discriminator_block(32, 64),
             *discriminator_block(64, 128),
         )
         # The height and width of downsampled image
-        ds_size = opt.img_size // 2 ** 4
+        ds_size = args.img_size // 2 ** 4
         self.D1 = nn.Linear(128 * ds_size ** 2, 1)
         self.D2 = nn.Linear(128 * ds_size ** 2, 1)
 
@@ -128,122 +117,136 @@ class CoupledDiscriminators(nn.Module):
         return validity1, validity2
 
 
-# Loss function
-adversarial_loss = torch.nn.MSELoss()
+if __name__ == '__main__':
+    os.makedirs("images", exist_ok=True)
 
-# Initialize models
-coupled_generators = CoupledGenerators()
-coupled_discriminators = CoupledDiscriminators()
+    args = arg_parse()
 
-if cuda:
-    coupled_generators.cuda()
-    coupled_discriminators.cuda()
+    img_shape = (args.channels, args.img_size, args.img_size)
 
-# Initialize weights
-coupled_generators.apply(weights_init_normal)
-coupled_discriminators.apply(weights_init_normal)
+    cuda = True if torch.cuda.is_available() else False
 
-# Configure data loader
-os.makedirs("../../data/mnist", exist_ok=True)
-dataloader1 = torch.utils.data.DataLoader(
-    datasets.MNIST(
-        "../../data/mnist",
-        train=True,
-        download=True,
-        transform=transforms.Compose(
-            [transforms.Resize(opt.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
+    # Loss function
+    adversarial_loss = torch.nn.MSELoss()
+
+    # Initialize models
+    coupled_generators = Generators(args)
+    coupled_discriminators = Discriminators(args)
+
+    if cuda:
+        coupled_generators.cuda()
+        coupled_discriminators.cuda()
+
+    # Initialize weights
+    coupled_generators.apply(weights_init_normal)
+    coupled_discriminators.apply(weights_init_normal)
+
+    # Configure data loader
+    os.makedirs("../../data/mnist", exist_ok=True)
+    dataloader1 = torch.utils.data.DataLoader(
+        datasets.MNIST(
+            "../../data/mnist",
+            train=True,
+            download=True,
+            transform=transforms.Compose(
+                [transforms.Resize(args.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
+            ),
         ),
-    ),
-    batch_size=opt.batch_size,
-    shuffle=True,
-)
+        batch_size=args.batch_size,
+        shuffle=True,
+    )
 
-os.makedirs("../../data/mnistm", exist_ok=True)
-dataloader2 = torch.utils.data.DataLoader(
-    mnistm.MNISTM(
-        "../../data/mnistm",
-        train=True,
-        download=True,
-        transform=transforms.Compose(
-            [
-                transforms.Resize(opt.img_size),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            ]
+    os.makedirs("../../data/mnistm", exist_ok=True)
+    dataloader2 = torch.utils.data.DataLoader(
+        mnistm.MNISTM(
+            "../../data/mnistm",
+            train=True,
+            download=True,
+            transform=transforms.Compose(
+                [
+                    transforms.Resize(args.img_size),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                ]
+            ),
         ),
-    ),
-    batch_size=opt.batch_size,
-    shuffle=True,
-)
+        batch_size=args.batch_size,
+        shuffle=True,
+    )
 
-# Optimizers
-optimizer_G = torch.optim.Adam(coupled_generators.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
-optimizer_D = torch.optim.Adam(coupled_discriminators.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
 
-Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+    lr = args.lr
+    b1, b2 = args.b1, args.b2
 
-# ----------
-#  Training
-# ----------
+    # Optimizers
+    optimizer_G = torch.optim.Adam(coupled_generators.parameters(), lr=lr, betas=(b1, b2))
+    optimizer_D = torch.optim.Adam(coupled_discriminators.parameters(), lr=lr, betas=(b1, b2))
 
-for epoch in range(opt.n_epochs):
-    for i, ((imgs1, _), (imgs2, _)) in enumerate(zip(dataloader1, dataloader2)):
+    Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
 
-        batch_size = imgs1.shape[0]
 
-        # Adversarial ground truths
-        valid = Variable(Tensor(batch_size, 1).fill_(1.0), requires_grad=False)
-        fake = Variable(Tensor(batch_size, 1).fill_(0.0), requires_grad=False)
+    # ----------
+    #  Training
+    # ----------
 
-        # Configure input
-        imgs1 = Variable(imgs1.type(Tensor).expand(imgs1.size(0), 3, opt.img_size, opt.img_size))
-        imgs2 = Variable(imgs2.type(Tensor))
+    n_epochs = args.n_epochs
+    sample_interval = args.sample_interval
 
-        # ------------------
-        #  Train Generators
-        # ------------------
+    for epoch in range(n_epochs):
+        for i, ((imgs1, _), (imgs2, _)) in enumerate(zip(dataloader1, dataloader2)):
 
-        optimizer_G.zero_grad()
+            batch_size = imgs1.shape[0]
 
-        # Sample noise as generator input
-        z = Variable(Tensor(np.random.normal(0, 1, (batch_size, opt.latent_dim))))
+            # Adversarial ground truths
+            valid = Variable(Tensor(batch_size, 1).fill_(1.0), requires_grad=False)
+            fake = Variable(Tensor(batch_size, 1).fill_(0.0), requires_grad=False)
 
-        # Generate a batch of images
-        gen_imgs1, gen_imgs2 = coupled_generators(z)
-        # Determine validity of generated images
-        validity1, validity2 = coupled_discriminators(gen_imgs1, gen_imgs2)
+            # Configure input
+            imgs1 = Variable(imgs1.type(Tensor).expand(imgs1.size(0), 3, args.img_size, args.img_size))
+            imgs2 = Variable(imgs2.type(Tensor))
 
-        g_loss = (adversarial_loss(validity1, valid) + adversarial_loss(validity2, valid)) / 2
+            # ------------------
+            #  Train Generators
+            # ------------------
 
-        g_loss.backward()
-        optimizer_G.step()
+            optimizer_G.zero_grad()
 
-        # ----------------------
-        #  Train Discriminators
-        # ----------------------
+            # Sample noise as generator input
+            z = Variable(Tensor(np.random.normal(0, 1, (batch_size, args.latent_dim))))
 
-        optimizer_D.zero_grad()
+            # Generate a batch of images
+            gen_imgs1, gen_imgs2 = coupled_generators(z)
+            # Determine validity of generated images
+            validity1, validity2 = coupled_discriminators(gen_imgs1, gen_imgs2)
 
-        # Determine validity of real and generated images
-        validity1_real, validity2_real = coupled_discriminators(imgs1, imgs2)
-        validity1_fake, validity2_fake = coupled_discriminators(gen_imgs1.detach(), gen_imgs2.detach())
+            g_loss = (adversarial_loss(validity1, valid) + adversarial_loss(validity2, valid)) / 2
 
-        d_loss = (
-            adversarial_loss(validity1_real, valid)
-            + adversarial_loss(validity1_fake, fake)
-            + adversarial_loss(validity2_real, valid)
-            + adversarial_loss(validity2_fake, fake)
-        ) / 4
+            g_loss.backward()
+            optimizer_G.step()
 
-        d_loss.backward()
-        optimizer_D.step()
+            # ----------------------
+            #  Train Discriminators
+            # ----------------------
 
-        print(
-            "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
-            % (epoch, opt.n_epochs, i, len(dataloader1), d_loss.item(), g_loss.item())
-        )
+            optimizer_D.zero_grad()
 
-        batches_done = epoch * len(dataloader1) + i
-        if batches_done % opt.sample_interval == 0:
-            gen_imgs = torch.cat((gen_imgs1.data, gen_imgs2.data), 0)
-            save_image(gen_imgs, "images/%d.png" % batches_done, nrow=8, normalize=True)
+            # Determine validity of real and generated images
+            validity1_real, validity2_real = coupled_discriminators(imgs1, imgs2)
+            validity1_fake, validity2_fake = coupled_discriminators(gen_imgs1.detach(), gen_imgs2.detach())
+
+            d_loss = (
+                adversarial_loss(validity1_real, valid)
+                + adversarial_loss(validity1_fake, fake)
+                + adversarial_loss(validity2_real, valid)
+                + adversarial_loss(validity2_fake, fake)
+            ) / 4
+
+            d_loss.backward()
+            optimizer_D.step()
+
+            print( "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]" % (epoch, n_epochs, i, len(dataloader1), d_loss.item(), g_loss.item()))
+
+            batches_done = epoch * len(dataloader1) + i
+            if batches_done % sample_interval == 0:
+                gen_imgs = torch.cat((gen_imgs1.data, gen_imgs2.data), 0)
+                save_image(gen_imgs, "images/%d.png" % batches_done, nrow=8, normalize=True)
