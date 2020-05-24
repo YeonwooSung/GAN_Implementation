@@ -5,7 +5,7 @@ import torch
 
 
 
-def weights_init_normal(m, init_type='normal', init_gain=0.02):
+def init_weights_of_model(m, init_type='normal', init_gain=0.02):
     classname = m.__class__.__name__
 
     if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):

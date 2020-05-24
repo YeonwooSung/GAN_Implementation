@@ -19,7 +19,7 @@ import torch
 
 from PIL import Image
 
-from models import Generator, Discriminator, weights_init_normal
+from models import Generator, Discriminator, init_weights_of_model
 from dataset import ImageDataset
 from utils import ReplayBuffer, LambdaLR
 
@@ -127,10 +127,10 @@ if __name__ == '__main__':
         D_B.load_state_dict(torch.load("saved_models/%s/D_B_%d.pth" % (dataset_name, epoch)))
     else:
         # Initialize weights
-        weights_init_normal(G_AB, init_type=init_type, init_gain=init_gain)
-        weights_init_normal(G_BA, init_type=init_type, init_gain=init_gain)
-        weights_init_normal(D_A, init_type=init_type, init_gain=init_gain)
-        weights_init_normal(D_B, init_type=init_type, init_gain=init_gain)
+        init_weights_of_model(G_AB, init_type=init_type, init_gain=init_gain)
+        init_weights_of_model(G_BA, init_type=init_type, init_gain=init_gain)
+        init_weights_of_model(D_A, init_type=init_type, init_gain=init_gain)
+        init_weights_of_model(D_B, init_type=init_type, init_gain=init_gain)
 
     # Optimizers
     optimizer_G = torch.optim.Adam(itertools.chain(G_AB.parameters(), G_BA.parameters()), lr=lr, betas=(b1, b2))
