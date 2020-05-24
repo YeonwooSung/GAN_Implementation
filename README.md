@@ -35,10 +35,11 @@ Image-to-image translation is a class of vision and graphics problems where the 
 
 [[paper]](http://openaccess.thecvf.com/content_iccv_2017/html/Zhu_Unpaired_Image-To-Image_Translation_ICCV_2017_paper.html) [[code]](./src/cyclegan/cyclegan.py)
 
-#### Running Instruction
+#### Example Running
 
 ```
 $ cd src/cyclegan/
+$ bash download_dataset.sh monet2photo
 $ python3 cyclegan.py
 ```
 
@@ -56,7 +57,7 @@ We propose a new framework for estimating generative models via an adversarial p
 
 [[paper]](https://arxiv.org/abs/1406.2661)  [[code]](./src/gan/gan.py)
 
-#### Running Instruction
+#### Example Running
 
 ```
 $ cd src/gan/
@@ -77,7 +78,7 @@ We introduce a new algorithm named WGAN, an alternative to traditional GAN train
 
 [[Paper]](https://arxiv.org/abs/1701.07875) [[Code]](./src/wgan/wgan.py)
 
-#### Running Instruction
+#### Example Running
 
 ```
 $ cd src/wgan/
@@ -98,7 +99,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
 
 [[Paper]](http://papers.nips.cc/paper/7159-improved-training-of-wasserstein-gans) [[Code]](./src/wgan_gp/wgan_gp.py)
 
-#### Running Instruction
+#### Example Running
 
 ```
 $ cd src/wgan_gp/
