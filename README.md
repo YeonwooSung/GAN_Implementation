@@ -43,6 +43,8 @@ $ bash download_dataset.sh monet2photo
 $ python3 cyclegan.py
 ```
 
+Please make sure that you download the suitable dataset before you run the python script for the cyclegan.
+
 ### GAN
 
 _Generative Adversarial Network_
