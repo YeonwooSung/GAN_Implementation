@@ -44,6 +44,8 @@ def arg_parser():
     parser.add_argument("--n_residual_blocks", type=int, default=9, help="number of residual blocks in generator")
     parser.add_argument("--lambda_cyc", type=float, default=10.0, help="cycle loss weight")
     parser.add_argument("--lambda_id", type=float, default=5.0, help="identity loss weight")
+    parser.add_argument("--init_type", type=str, default='normal', choices=['normal', 'xavier', 'kaiming', 'orthogonal'], help="type of initialising weights")
+    parser.add_argument("--init_gain", type=float, default=0.02, help="epoch to start training from")
     return parser.parse_args()
 
 
@@ -79,6 +81,7 @@ if __name__ == '__main__':
     dataset_name = args.dataset_name
     n_residual_blocks = args.n_residual_blocks
     epoch, n_epochs, decay_epoch = args.epoch, args.n_epochs, args.decay_epoch
+    init_type, init_gain = args.init_type, args.init_gain
     lr = args.lr
     b1, b2 = args.b1, args.b2
     batch_size = args.batch_size
@@ -124,10 +127,10 @@ if __name__ == '__main__':
         D_B.load_state_dict(torch.load("saved_models/%s/D_B_%d.pth" % (dataset_name, epoch)))
     else:
         # Initialize weights
-        G_AB.apply(weights_init_normal)
-        G_BA.apply(weights_init_normal)
-        D_A.apply(weights_init_normal)
-        D_B.apply(weights_init_normal)
+        weights_init_normal(G_AB, init_type=init_type, init_gain=init_gain)
+        weights_init_normal(G_BA, init_type=init_type, init_gain=init_gain)
+        weights_init_normal(D_A, init_type=init_type, init_gain=init_gain)
+        weights_init_normal(D_B, init_type=init_type, init_gain=init_gain)
 
     # Optimizers
     optimizer_G = torch.optim.Adam(itertools.chain(G_AB.parameters(), G_BA.parameters()), lr=lr, betas=(b1, b2))
@@ -178,7 +181,6 @@ if __name__ == '__main__':
         shuffle=True,
         num_workers=1,
     )
-
 
     # ----------
     #  Training

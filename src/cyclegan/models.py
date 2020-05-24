@@ -10,6 +10,9 @@ def weights_init_normal(m, init_type='normal', init_gain=0.02):
 
     if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):
 
+        # The default init type is 'normal', which is used for both CycleGAN paper and pix2pix paper.
+        # However, in some cases, xavier and kaiming might work better for some applications.
+        # Thus, try all of them for experiment.
         if init_type == 'normal':
             init.normal_(m.weight.data, 0.0, init_gain)
         elif init_type == 'xavier':
