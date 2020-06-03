@@ -11,6 +11,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [Coupled GAN](#coupled-gan)
     + [CycleGAN](#cyclegan)
     + [GAN](#gan)
+    + [PGGAN](#pggan)
     + [Wasserstein GAN](#wasserstein-gan)
     + [Wasserstein GAN GP](#wasserstein-gan-gp)
 
@@ -86,6 +87,29 @@ We propose a new framework for estimating generative models via an adversarial p
 ```
 $ cd src/gan/
 $ python3 gan.py
+```
+
+### PGGAN
+
+_Progressive Growing of GANs for Improved Quality, Stability, and Variation_
+
+#### Authors
+
+Tero Karras, Timo Aila, Samuli Laine, Jaakko Lehtinen
+
+#### Abstract
+
+We describe a new training methodology for generative adversarial networks. The key idea is to grow both the generator and discriminator progressively: starting from a low resolution, we add new layers that model increasingly fine details as training progresses. This both speeds the training up and greatly stabilizes it, allowing us to produce images of unprecedented quality, e.g., CelebA images at 1024². We also propose a simple way to increase the variation in generated images, and achieve a record inception score of 8.80 in unsupervised CIFAR10. Additionally, we describe several implementation details that are important for discouraging unhealthy competition between the generator and discriminator. Finally, we suggest a new metric for evaluating GAN results, both in terms of image quality and variation. As an additional contribution, we construct a higher-quality version of the CelebA dataset.
+
+[[paper]](https://research.nvidia.com/publication/2017-10_Progressive-Growing-of) [[Code]](./src/pggan/main.py)
+
+#### Example Running
+
+Before running the "main.py", you need to download the dataset from [here](https://drive.google.com/drive/folders/1j6uZ_a6zci0HyKZdpDq9kSa8VihtEPCp) to '/data' directory. You could find more information about downloading dataset from [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/). My implementation uses the celeb dataset, so if you want to use other dataset, please follow the instructions in [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/).
+
+```
+$ cd src/pggan
+$ python3 main.py
 ```
 
 ### Wasserstein GAN
