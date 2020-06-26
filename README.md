@@ -15,12 +15,15 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [Softmax GAN](#softmax-gan)
     + [Wasserstein GAN](#wasserstein-gan)
     + [Wasserstein GAN GP](#wasserstein-gan-gp)
+    + [WaveGAN](#wavegan)
 
 ## Installation
 
     $ git clone https://github.com/eriklindernoren/PyTorch-GAN
     $ cd PyTorch-GAN/
     $ sudo pip3 install -r requirements.txt
+
+The WaveGAN uses libav, thus, you should install the libav before training the WaveGAN.
 
 ## Implementations
 
@@ -175,3 +178,34 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
 $ cd src/wgan_gp/
 $ python3 wgan_gp.py
 ```
+
+### WaveGAN
+
+_Adversarial Audio Synthesis_
+
+#### Authors (WaveGAN)
+
+Chris Donahue, Julian McAuley, Miller Puckette
+
+#### Abstract (WaveGAN)
+
+Audio signals are sampled at high temporal resolutions, and learning to synthesize audio requires capturing structure across a range of timescales. Generative adversarial networks (GANs) have seen wide success at generating images that are both locally and globally coherent, but they have seen little application to audio generation. In this paper we introduce WaveGAN, a first attempt at applying GANs to unsupervised synthesis of raw-waveform audio. WaveGAN is capable of synthesizing one second slices of audio waveforms with global coherence, suitable for sound effect generation. Our experiments demonstrate that, without labels, WaveGAN learns to produce intelligible words when trained on a small-vocabulary speech dataset, and can also synthesize audio from other domains such as drums, bird vocalizations, and piano. We compare WaveGAN to a method which applies GANs designed for image generation on image-like audio feature representations, finding both approaches to be promising.
+
+#### Example Running (WaveGAN)
+
+Before running the WaveGAN, you should first download dataset in the data directory.
+
+* `sc09`: [sc09 raw WAV files](http://deepyeti.ucsd.edu/cdonahue/sc09.tar.gz), utterances of spoken english words '0'-'9'
+* `piano`: [Piano raw WAV files](http://deepyeti.ucsd.edu/cdonahue/mancini_piano.tar.gz)
+
+After downloading the dataset, you could run the WaveGAN by using following scripts.
+
+```
+$ cd src/wavegan/
+$ python3 train.py
+```
+
+#### Contributions
+
+Codes for the WaveGAN in this repository are based on [mazzzystar's repository](https://github.com/mazzzystar/WaveGAN-pytorch) and [jtcramar's repository](https://github.com/jtcramer/wavegan).
+Credits for the WaveGAN codes to [mazzzystar](https://github.com/mazzzystar) and [jtcramar](https://github.com/jtcramer).

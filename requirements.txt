@@ -1,5 +1,7 @@
 torch>=0.4.0
 torchvision
+librosa
+pescador
 matplotlib
 numpy
 scipy
