@@ -11,6 +11,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [Coupled GAN](#coupled-gan)
     + [CycleGAN](#cyclegan)
     + [GAN](#gan)
+    + [SAGAN](#sagan)
     + [PGGAN](#pggan)
     + [Softmax GAN](#softmax-gan)
     + [Wasserstein GAN](#wasserstein-gan)
@@ -91,6 +92,29 @@ We propose a new framework for estimating generative models via an adversarial p
 ```
 $ cd src/gan/
 $ python3 gan.py
+```
+
+### SAGAN
+
+_Self-Attention Generative Adversarial Networks_
+
+#### Authors (SAGAN)
+
+Han Zhang, Ian Goodfellow, Dimitris Metaxas, Augustus Odena
+
+#### Abstract (SAGAN)
+
+In this paper, we propose the Self-Attention Generative Adversarial Network (SAGAN) which allows attention-driven, long-range dependency modeling for image generation tasks. Traditional convolutional GANs generate high-resolution details as a function of only spatially local points in lower-resolution feature maps. In SAGAN, details can be generated using cues from all feature locations. Moreover, the discriminator can check that highly detailed features in distant portions of the image are consistent with each other. Furthermore, recent work has shown that generator conditioning affects GAN performance. Leveraging this insight, we apply spectral normalization to the GAN generator and find that this improves training dynamics. The proposed SAGAN achieves the state-of-the-art results, boosting the best published Inception score from 36.8 to 52.52 and reducing Frechet Inception distance from 27.62 to 18.65 on the challenging ImageNet dataset. Visualization of the attention layers shows that the generator leverages neighborhoods that correspond to object shapes rather than local regions of fixed shape.
+
+#### Example Running (SAGAN)
+
+Before running the "main.py", you need to download the dataset from [here](https://drive.google.com/drive/folders/1j6uZ_a6zci0HyKZdpDq9kSa8VihtEPCp) to '/data' directory.  I really wanted to find suitable shell script that could help programers to download the CelebA dataset easily. Unfortunately, however, I was not able to find suitable script.
+
+After downloading the dataset in the "data/" directory, now you could run the SAGAN program by following the instruction.
+
+```
+$ cd src/sagan
+$ python3 main.py
 ```
 
 ### PGGAN
