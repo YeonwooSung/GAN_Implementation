@@ -117,6 +117,10 @@ $ cd src/sagan
 $ python3 main.py
 ```
 
+#### Contributions (SAGAN)
+
+Codes for the SAGAN in this repository are based on [this repository](https://github.com/heykeetae/Self-Attention-GAN). Credits to [heykeetae](https://github.com/heykeetae).
+
 ### PGGAN
 
 _Progressive Growing of GANs for Improved Quality, Stability, and Variation_
@@ -231,7 +235,7 @@ $ cd src/wavegan/
 $ python3 train.py
 ```
 
-#### Contributions
+#### Contributions (WaveGAN)
 
 Codes for the WaveGAN in this repository are based on [mazzzystar's repository](https://github.com/mazzzystar/WaveGAN-pytorch) and [jtcramar's repository](https://github.com/jtcramer/wavegan).
 Credits for the WaveGAN codes to [mazzzystar](https://github.com/mazzzystar) and [jtcramar](https://github.com/jtcramer).
