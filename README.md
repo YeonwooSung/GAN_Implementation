@@ -10,6 +10,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
   * [Implementations](#Implementations)
     + [Coupled GAN](#coupled-gan)
     + [CycleGAN](#cyclegan)
+    + [Energy-Based GAN](#energy-based-gan)
     + [GAN](#gan)
     + [SAGAN](#sagan)
     + [PGGAN](#pggan)
@@ -72,6 +73,27 @@ $ python3 cyclegan.py
 ```
 
 Please make sure that you download the suitable dataset before you run the python script for the cyclegan.
+
+### Energy-Based GAN
+
+_Energy-based Generative Adversarial Network_
+
+#### Authors (Energy-Based GAN)
+
+Junbo Zhao, Michael Mathieu, Yann LeCun
+
+#### Abstract (Energy-Based GAN)
+
+We introduce the "Energy-based Generative Adversarial Network" model (EBGAN) which views the discriminator as an energy function that attributes low energies to the regions near the data manifold and higher energies to other regions. Similar to the probabilistic GANs, a generator is seen as being trained to produce contrastive samples with minimal energies, while the discriminator is trained to assign high energies to these generated samples. Viewing the discriminator as an energy function allows to use a wide variety of architectures and loss functionals in addition to the usual binary classifier with logistic output. Among them, we show one instantiation of EBGAN framework as using an auto-encoder architecture, with the energy being the reconstruction error, in place of the discriminator. We show that this form of EBGAN exhibits more stable behavior than regular GANs during training. We also show that a single-scale architecture can be trained to generate high-resolution images.
+
+[[paper]](https://arxiv.org/abs/1609.03126) [[code]](./src/ebgan/ebgan.py)
+
+#### Example Running (Energy-Based GAN)
+
+```
+$ cd implementations/ebgan/
+$ python3 ebgan.py
+```
 
 ### GAN
 
