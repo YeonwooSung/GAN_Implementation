@@ -82,7 +82,6 @@ class Discriminator(nn.Module):
     def __init__(self, img_size, channels):
         super(Discriminator, self).__init__()
 
-        # Upsampling
         self.down = nn.Sequential(nn.Conv2d(channels, 64, 3, 2, 1), nn.ReLU())
 
         # Fully-connected layers
@@ -99,7 +98,6 @@ class Discriminator(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        # Upsampling
         self.up = nn.Sequential(nn.Upsample(scale_factor=2), nn.Conv2d(64, channels, 3, 1, 1))
 
     def forward(self, img):
