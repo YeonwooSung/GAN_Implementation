@@ -21,7 +21,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
 
 ## Installation
 
-    $ git clone https://github.com/eriklindernoren/PyTorch-GAN
+    $ git clone https://github.com/YeonwooSung/GAN_Implementation
     $ cd PyTorch-GAN/
     $ sudo pip3 install -r requirements.txt
 
