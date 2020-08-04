@@ -12,9 +12,11 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [CycleGAN](#cyclegan)
     + [Energy-Based GAN](#energy-based-gan)
     + [GAN](#gan)
+    + [MUNIT](#munit)
     + [SAGAN](#sagan)
     + [PGGAN](#pggan)
     + [Softmax GAN](#softmax-gan)
+    + [UNIT](#unit)
     + [Wasserstein GAN](#wasserstein-gan)
     + [Wasserstein GAN GP](#wasserstein-gan-gp)
     + [WaveGAN](#wavegan)
@@ -114,6 +116,29 @@ We propose a new framework for estimating generative models via an adversarial p
 ```
 $ cd src/gan/
 $ python3 gan.py
+```
+
+### MUNIT
+
+_Multimodal Unsupervised Image-to-Image Translation_
+
+#### Authors (MUNIT)
+
+Xun Huang, Ming-Yu Liu, Serge Belongie, Jan Kautz
+
+#### Abstract (MUNIT)
+
+Unsupervised image-to-image translation is an important and challenging problem in computer vision. Given an image in the source domain, the goal is to learn the conditional distribution of corresponding images in the target domain, without seeing any pairs of corresponding images. While this conditional distribution is inherently multimodal, existing approaches make an overly simplified assumption, modeling it as a deterministic one-to-one mapping. As a result, they fail to generate diverse outputs from a given source domain image. To address this limitation, we propose a Multimodal Unsupervised Image-to-image Translation (MUNIT) framework. We assume that the image representation can be decomposed into a content code that is domain-invariant, and a style code that captures domain-specific properties. To translate an image to another domain, we recombine its content code with a random style code sampled from the style space of the target domain. We analyze the proposed framework and establish several theoretical results. Extensive experiments with comparisons to the state-of-the-art approaches further demonstrates the advantage of the proposed framework. Moreover, our framework allows users to control the style of translation outputs by providing an example style image. Code and pretrained models are available at [this https URL](https://github.com/nvlabs/MUNIT).
+
+[[Paper]](https://arxiv.org/abs/1804.04732) [[Code]](./src/munit/munit.py)
+
+#### Example Running (MUNIT)
+
+```
+$ cd data/
+$ bash download_pix2pix_dataset.sh edges2shoes
+$ cd ../implementations/munit/
+$ python3 munit.py --dataset_name edges2shoes
 ```
 
 ### SAGAN
@@ -245,14 +270,11 @@ Unsupervised image-to-image translation aims at learning a joint distribution of
 
 #### Example Running (UNIT)
 
-```bash
-cd data/
-
-./download_cyclegan_dataset.sh apple2orange
-
-implementations/unit/
-
-python3 unit.py --dataset_name apple2orange
+```
+$ cd data/
+$ ./download_cyclegan_dataset.sh apple2orange
+$ implementations/unit/
+$ python3 unit.py --dataset_name apple2orange
 ```
 
 ### WaveGAN
