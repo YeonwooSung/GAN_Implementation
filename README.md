@@ -214,6 +214,8 @@ $ python3 softmax_gan.py
 
 ### TUNIT
 
+_Rethinking the Truly Unsupervised Image-to-Image Translation_
+
 #### Authors (TUNIT)
 
 Kyungjune Baek, Yunjey Choi, Youngjung Uh, Jaejun Yoo, Hyunjung Shim
