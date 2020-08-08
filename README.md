@@ -141,6 +141,29 @@ $ cd ../implementations/munit/
 $ python3 munit.py --dataset_name edges2shoes
 ```
 
+### PGGAN
+
+_Progressive Growing of GANs for Improved Quality, Stability, and Variation_
+
+#### Authors (PGGAN)
+
+Tero Karras, Timo Aila, Samuli Laine, Jaakko Lehtinen
+
+#### Abstract (PGGAN)
+
+We describe a new training methodology for generative adversarial networks. The key idea is to grow both the generator and discriminator progressively: starting from a low resolution, we add new layers that model increasingly fine details as training progresses. This both speeds the training up and greatly stabilizes it, allowing us to produce images of unprecedented quality, e.g., CelebA images at 1024². We also propose a simple way to increase the variation in generated images, and achieve a record inception score of 8.80 in unsupervised CIFAR10. Additionally, we describe several implementation details that are important for discouraging unhealthy competition between the generator and discriminator. Finally, we suggest a new metric for evaluating GAN results, both in terms of image quality and variation. As an additional contribution, we construct a higher-quality version of the CelebA dataset.
+
+[[paper]](https://research.nvidia.com/publication/2017-10_Progressive-Growing-of) [[Code]](./src/pggan/main.py)
+
+#### Example Running (PGGAN)
+
+Before running the "main.py", you need to download the dataset from [here](https://drive.google.com/drive/folders/1j6uZ_a6zci0HyKZdpDq9kSa8VihtEPCp) to '/data' directory. You could find more information about downloading dataset from [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/). My implementation uses the celeb dataset, so if you want to use other dataset, please follow the instructions in [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/).
+
+```
+$ cd src/pggan
+$ python3 main.py
+```
+
 ### SAGAN
 
 _Self-Attention Generative Adversarial Networks_
@@ -168,29 +191,6 @@ $ python3 main.py
 
 Codes for the SAGAN in this repository are based on [this repository](https://github.com/heykeetae/Self-Attention-GAN). Credits to [heykeetae](https://github.com/heykeetae).
 
-### PGGAN
-
-_Progressive Growing of GANs for Improved Quality, Stability, and Variation_
-
-#### Authors (PGGAN)
-
-Tero Karras, Timo Aila, Samuli Laine, Jaakko Lehtinen
-
-#### Abstract (PGGAN)
-
-We describe a new training methodology for generative adversarial networks. The key idea is to grow both the generator and discriminator progressively: starting from a low resolution, we add new layers that model increasingly fine details as training progresses. This both speeds the training up and greatly stabilizes it, allowing us to produce images of unprecedented quality, e.g., CelebA images at 1024². We also propose a simple way to increase the variation in generated images, and achieve a record inception score of 8.80 in unsupervised CIFAR10. Additionally, we describe several implementation details that are important for discouraging unhealthy competition between the generator and discriminator. Finally, we suggest a new metric for evaluating GAN results, both in terms of image quality and variation. As an additional contribution, we construct a higher-quality version of the CelebA dataset.
-
-[[paper]](https://research.nvidia.com/publication/2017-10_Progressive-Growing-of) [[Code]](./src/pggan/main.py)
-
-#### Example Running (PGGAN)
-
-Before running the "main.py", you need to download the dataset from [here](https://drive.google.com/drive/folders/1j6uZ_a6zci0HyKZdpDq9kSa8VihtEPCp) to '/data' directory. You could find more information about downloading dataset from [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/). My implementation uses the celeb dataset, so if you want to use other dataset, please follow the instructions in [the official PGGAN repository](https://github.com/tkarras/progressive_growing_of_gans/).
-
-```
-$ cd src/pggan
-$ python3 main.py
-```
-
 ### Softmax GAN
 
 _Softmax GAN_
@@ -211,6 +211,76 @@ Softmax GAN is a novel variant of Generative Adversarial Network (GAN). The key 
 $ cd src/softmax_gan
 $ python3 softmax_gan.py
 ```
+
+### TUNIT
+
+#### Authors (TUNIT)
+
+Kyungjune Baek, Yunjey Choi, Youngjung Uh, Jaejun Yoo, Hyunjung Shim
+
+#### Abstract (TUNIT)
+
+Every recent image-to-image translation model uses either image-level (i.e. input-output pairs) or set-level (i.e. domain labels) supervision at minimum. However, even the set-level supervision can be a serious bottleneck for data collection in practice. In this paper, we tackle image-to-image translation in a fully unsupervised setting, i.e., neither paired images nor domain labels. To this end, we propose the truly unsupervised image-to-image translation method (TUNIT) that simultaneously learns to separate image domains via an information-theoretic approach and generate corresponding images using the estimated domain labels. Experimental results on various datasets show that the proposed method successfully separates domains and translates images across those domains. In addition, our model outperforms existing set-level supervised methods under a semi-supervised setting, where a subset of domain labels is provided. The source code is available at this [https URL](https://github.com/clovaai/tunit).
+
+[[Paper]](https://arxiv.org/abs/2006.06500) [[Code]](./src/tunit/main.py)
+
+#### Example Running (TUNIT)
+
+Before running the TUNIT, please download the both [AFHQ (StarGANv2)](https://www.dropbox.com/s/t9l9o3vsx2jai3z/afhq.zip?dl=0) and [AnimalFaces (FUNIT)](https://github.com/NVlabs/FUNIT). And put those downloaded dataset into the [data/ directory](./data).
+
+```
+# Training
+$ python3 main.py --gpu 0 --dataset animal_faces --output_k 10 --data_path '../../data' --p_semi 0.0
+$ python3 main.py --gpu 0 --dataset afhq_cat --output_k 10 --data_path '../../data' --p_semi 0.2
+$ python3 main.py --gpu 1 --dataset animal_faces --data_path '../../data' --p_semi 1.0
+$ python3 main.py --gpu 0,1 --dataset summer2winter --output_k 2 --data_path '../../data' --p_semi 0.0 --img_size 256 --batch_size 16 --ddp
+
+
+# Test
+$ python3 main.py --gpu 0 --dataset animal_faces --output_k 10 --data_path '../../data' --validation --load_model GAN_20190101_101010
+$ python3 main.py --gpu 1 --dataset afhq_cat --output_k 10 --data_path '../../data' --validation --load_model GAN_20190101_101010
+$ python3 main.py --gpu 2 --dataset summer2winter --output_k 2 --data_path '../../data' --validation --load_model GAN_20190101_101010
+
+
+# Monitoring - open terminal at ./tunit/logs
+$ tensorboard --logdir=./GAN_20200101_101010/events
+```
+
+##### Training
+
+Supervised:
+
+```
+$ python3 src/tunit/main.py --gpu $GPU_TO_USE --p_semi 1.0 --dataset animal_faces --data_path='../../data'
+```
+
+Semi-Supervised:
+
+```
+$ python3 main.py --gpu $GPU_TO_USE --p_semi 0.5 --dataset animal_faces --data_path='../../data'
+```
+
+Unsupervised:
+
+```
+$ python3 main.py --gpu $GPU_TO_USE --p_semi 0.0 --dataset animal_faces --data_path='../../data'
+```
+
+##### Testing
+
+```
+$ python3 main.py --gpu $GPU_TO_USE --validation --load_model $DIR_TO_LOAD --data_path '../../data' --dataset animal_faces
+```
+
+##### Monitoring
+
+```
+$ tensorboard --logdir=$DIR/events --port=$PORT
+```
+
+#### Contributions (TUNIT)
+
+Most of the codes for the TUNIT model in this repository are from [the TUNIT authors' repository](https://github.com/clovaai/tunit). I simply modified some of the codes to make it much more efficient. Credits to ClovaAI.
 
 ### Wasserstein GAN
 

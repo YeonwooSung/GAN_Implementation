@@ -1,4 +1,4 @@
-torch>=0.4.0
+torch==1.1.0
 torchvision
 librosa
 pescador
@@ -8,3 +8,6 @@ scipy
 pillow
 urllib3
 scikit-image
+tqdm
+opencv-python
+tensorboardX
