@@ -10,6 +10,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
   * [Implementations](#Implementations)
     + [Coupled GAN](#coupled-gan)
     + [CycleGAN](#cyclegan)
+    + [DRAGAN](#dragan)
     + [Energy-Based GAN](#energy-based-gan)
     + [GAN](#gan)
     + [MUNIT](#munit)
@@ -75,6 +76,27 @@ $ python3 cyclegan.py
 ```
 
 Please make sure that you download the suitable dataset before you run the python script for the cyclegan.
+
+### DRAGAN
+
+_On Convergence and Stability of GANs_
+
+#### Authors (DRAGAN)
+
+Naveen Kodali, Jacob Abernethy, James Hays, Zsolt Kira
+
+#### Abstract (DRAGAN)
+
+We propose studying GAN training dynamics as regret minimization, which is in contrast to the popular view that there is consistent minimization of a divergence between real and generated distributions. We analyze the convergence of GAN training from this new point of view to understand why mode collapse happens. We hypothesize the existence of undesirable local equilibria in this non-convex game to be responsible for mode collapse. We observe that these local equilibria often exhibit sharp gradients of the discriminator function around some real data points. We demonstrate that these degenerate local equilibria can be avoided with a gradient penalty scheme called DRAGAN. We show that DRAGAN enables faster training, achieves improved stability with fewer mode collapses, and leads to generator networks with better modeling performance across a variety of architectures and objective functions.
+
+[[Paper]](https://arxiv.org/abs/1705.07215) [[Code]](./src/dragan/dragan.py)
+
+#### Example Running
+
+```
+$ cd src/dragan
+$ python3 dragan.py
+```
 
 ### Energy-Based GAN
 
