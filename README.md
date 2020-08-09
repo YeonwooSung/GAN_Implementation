@@ -10,6 +10,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
   * [Implementations](#Implementations)
     + [Coupled GAN](#coupled-gan)
     + [CycleGAN](#cyclegan)
+    + [DCGAN](#dcgan)
     + [DRAGAN](#dragan)
     + [Energy-Based GAN](#energy-based-gan)
     + [GAN](#gan)
