@@ -16,10 +16,12 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [Energy-Based GAN](#energy-based-gan)
     + [GAN](#gan)
     + [MUNIT](#munit)
+    + [PGGAN](#pggan)
     + [SAGAN](#sagan)
     + [Semi-Supervised GAN](#semi-supervised-gan)
-    + [PGGAN](#pggan)
     + [Softmax GAN](#softmax-gan)
+    + [StarGAN](#stargan)
+    + [TUNIT](#tunit)
     + [UNIT](#unit)
     + [Wasserstein GAN](#wasserstein-gan)
     + [Wasserstein GAN GP](#wasserstein-gan-gp)
@@ -52,7 +54,7 @@ We propose a new equilibrium enforcing method paired with a loss derived from th
 #### Running Example
 
 ```
-$ cd implementations/began/
+$ cd src/began/
 $ python3 began.py
 ```
 
@@ -118,7 +120,7 @@ In recent years, supervised learning with convolutional networks (CNNs) has seen
 #### Example Running (DCGAN)
 
 ```
-$ cd implementations/dcgan/
+$ cd src/dcgan/
 $ python3 dcgan.py
 ```
 
@@ -160,7 +162,7 @@ We introduce the "Energy-based Generative Adversarial Network" model (EBGAN) whi
 #### Example Running (Energy-Based GAN)
 
 ```
-$ cd implementations/ebgan/
+$ cd src/ebgan/
 $ python3 ebgan.py
 ```
 
@@ -204,7 +206,7 @@ Unsupervised image-to-image translation is an important and challenging problem 
 ```
 $ cd data/
 $ bash download_pix2pix_dataset.sh edges2shoes
-$ cd ../implementations/munit/
+$ cd ../src/munit/
 $ python3 munit.py --dataset_name edges2shoes
 ```
 
@@ -275,7 +277,7 @@ We extend Generative Adversarial Networks (GANs) to the semi-supervised context 
 #### Running Example (Semi-Supervised GAN)
 
 ```
-$ cd implementations/sgan/
+$ cd src/sgan/
 $ python3 sgan.py
 ```
 
@@ -298,6 +300,23 @@ Softmax GAN is a novel variant of Generative Adversarial Network (GAN). The key 
 ```
 $ cd src/softmax_gan
 $ python3 softmax_gan.py
+```
+
+### StarGAN
+
+#### Authors (StarGAN)
+
+#### Abstract (StarGAN)
+
+#### Running Example (StarGAN)
+
+Before running the stargan, you need to download the CelebA dataset from [here](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AADIKlz8PR9zr6Y20qbkunrba/Img/img_align_celeba.zip?dl=0). Also, you need to download the [annotation file](https://www.dropbox.com/sh/8oqt9vytwxb3s4r/AAA8YmAHNNU6BEfWMPMfM6r9a/Anno?dl=0&preview=list_attr_celeba.txt). After download both dataset and annotation file, copy 'list_attr_celeba.txt' to folder 'img_align_celeba', and save the folder 'img_align_celeba' to "[data](./data)" directory.
+
+After finish the process above, you could run the StarGan by running the following commands.
+
+```
+cd src/stargan
+python3 stargan.py
 ```
 
 ### TUNIT
@@ -433,7 +452,7 @@ Unsupervised image-to-image translation aims at learning a joint distribution of
 ```
 $ cd data/
 $ ./download_cyclegan_dataset.sh apple2orange
-$ implementations/unit/
+$ src/unit/
 $ python3 unit.py --dataset_name apple2orange
 ```
 
