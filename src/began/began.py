@@ -110,8 +110,8 @@ if __name__ == "__main__":
 
 
     # Initialize generator and discriminator
-    generator = Generator()
-    discriminator = Discriminator()
+    generator = Generator(channels, img_size, latent_dim)
+    discriminator = Discriminator(channels, img_size)
 
     # check if CUDA is available
     if cuda:
