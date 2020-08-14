@@ -17,6 +17,7 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
     + [GAN](#gan)
     + [MUNIT](#munit)
     + [SAGAN](#sagan)
+    + [Semi-Supervised GAN](#semi-supervised-gan)
     + [PGGAN](#pggan)
     + [Softmax GAN](#softmax-gan)
     + [UNIT](#unit)
@@ -256,6 +257,27 @@ $ python3 main.py
 #### Contributions (SAGAN)
 
 Codes for the SAGAN in this repository are based on [this repository](https://github.com/heykeetae/Self-Attention-GAN). Credits to [heykeetae](https://github.com/heykeetae).
+
+### Semi-Supervised GAN
+
+_Semi-Supervised Generative Adversarial Network_
+
+#### Authors (Semi-Supervised GAN)
+
+Augustus Odena
+
+#### Abstract (Semi-Supervised GAN)
+
+We extend Generative Adversarial Networks (GANs) to the semi-supervised context by forcing the discriminator network to output class labels. We train a generative model G and a discriminator D on a dataset with inputs belonging to one of N classes. At training time, D is made to predict which of N+1 classes the input belongs to, where an extra class is added to correspond to the outputs of G. We show that this method can be used to create a more data-efficient classifier and that it allows for generating higher quality samples than a regular GAN.
+
+[[Paper]](https://arxiv.org/abs/1606.01583) [[Code]](./src/sgan.py)
+
+#### Running Example (Semi-Supervised GAN)
+
+```
+$ cd implementations/sgan/
+$ python3 sgan.py
+```
 
 ### Softmax GAN
 
