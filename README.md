@@ -4,6 +4,8 @@
 
 Basically, this repository is a collection of my PyTorch implementation of Generative Adversarial Network varieties presented in research papers.
 
+If you liked my repository, please star it. Also, contributions are always welcomed, so please give in touch.
+
 ## Table of Contents
 
   * [Installation](#Installation)
