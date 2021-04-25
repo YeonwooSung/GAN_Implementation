@@ -23,6 +23,7 @@ If you liked my repository, please star it. Also, contributions are always welco
     + [Semi-Supervised GAN](#semi-supervised-gan)
     + [Softmax GAN](#softmax-gan)
     + [StarGAN](#stargan)
+    + [StoryGAN](#storygan)
     + [TUNIT](#tunit)
     + [UNIT](#unit)
     + [Wasserstein GAN](#wasserstein-gan)
@@ -306,9 +307,17 @@ $ python3 softmax_gan.py
 
 ### StarGAN
 
+_StarGAN: Unified Generative Adversarial Networks for Multi-Domain Image-to-Image Translation_
+
 #### Authors (StarGAN)
 
+Yunjey Choi, Minje Choi, Munyoung Kim, Jung-Woo Ha, Sunghun Kim, Jaegul Choo
+
 #### Abstract (StarGAN)
+
+Recent studies have shown remarkable success in image-to-image translation for two domains. However, existing approaches have limited scalability and robustness in handling more than two domains, since different models should be built independently for every pair of image domains. To address this limitation, we propose StarGAN, a novel and scalable approach that can perform image-to-image translations for multiple domains using only a single model. Such a unified model architecture of StarGAN allows simultaneous training of multiple datasets with different domains within a single network. This leads to StarGAN's superior quality of translated images compared to existing models as well as the novel capability of flexibly translating an input image to any desired target domain. We empirically demonstrate the effectiveness of our approach on a facial attribute transfer and a facial expression synthesis tasks.
+
+[[Paper]](https://arxiv.org/abs/1711.09020) [[Code]](./src/stargan/stargan.py)
 
 #### Running Example (StarGAN)
 
@@ -320,6 +329,10 @@ After finish the process above, you could run the StarGan by running the followi
 cd src/stargan
 python3 stargan.py
 ```
+
+### StoryGAN
+
+#### Authors (StoryGAN)
 
 ### TUNIT
 
