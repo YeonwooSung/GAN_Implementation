@@ -6,6 +6,11 @@ Basically, this repository is a collection of my PyTorch implementation of Gener
 
 If you liked my repository, please star it. Also, contributions are always welcomed, so please give in touch.
 
+## ToDo
+
+1. DualStyleGAN
+2. TediGAN
+
 ## Table of Contents
 
   * [Installation](#Installation)
