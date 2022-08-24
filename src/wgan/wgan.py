@@ -145,7 +145,7 @@ if __name__ == '__main__':
             # Generate a batch of images
             fake_imgs = generator(z).detach()
             # Adversarial loss
-            loss_D = - torch.mean(discriminator(real_imgs) + torch.mean(discriminator(fake_imgs)))
+            loss_D = - torch.mean(discriminator(real_imgs)) + torch.mean(discriminator(fake_imgs))
 
             loss_D.backward()
             optimizer_D.step()
